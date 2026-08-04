@@ -1,11 +1,9 @@
-/bin/
-*.test
-*.out
-.env
 .git
 .github
+.vscode
 *.md
 bin
 coverage.out
 .env
+.env.local
 .DS_Store

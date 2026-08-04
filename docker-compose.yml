@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: links
+      POSTGRES_PASSWORD: links
+      POSTGRES_DB: links
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U links -d links"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build: .
+    environment:
+      HTTP_ADDR: ":8081"
+      BASE_URL: "http://localhost:8081"
+      STORAGE: "postgres"
+      POSTGRES_DSN: "postgres://links:links@db:5432/links?sslmode=disable"
+      LOG_LEVEL: "info"
+    ports:
+      - "8081:8081"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:
