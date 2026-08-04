@@ -81,8 +81,8 @@ func (s *Storage) Save(ctx context.Context, l shortener.Link) (shortener.Link, b
 	var stored shortener.Link
 	err := s.pool.QueryRow(ctx, insert, l.Code, l.URL, l.CreatedAt).
 		Scan(&stored.Code, &stored.URL, &stored.CreatedAt)
-		// pgx декодирует timestamptz в часовом поясе сессии
-		stored.CreatedAt = stored.CreatedAt.UTC()
+	// pgx декодирует timestamptz в часовом поясе сессии
+	stored.CreatedAt = stored.CreatedAt.UTC()
 
 	switch {
 	case err == nil:
@@ -101,7 +101,7 @@ func (s *Storage) Save(ctx context.Context, l shortener.Link) (shortener.Link, b
 		// Единственный оставшийся конфликт по первичному ключу
 		return shortener.Link{}, false, mapError(err)
 	}
-	
+
 }
 
 func (s *Storage) getByURL(ctx context.Context, url string) (shortener.Link, error) {
@@ -112,7 +112,7 @@ func (s *Storage) getByURL(ctx context.Context, url string) (shortener.Link, err
 
 	var l shortener.Link
 	err := s.pool.QueryRow(ctx, query, url).Scan(&l.Code, &l.URL, &l.CreatedAt)
-		// pgx декодирует timestamptz в часовом поясе сессии. Момент времени тот же,
+	// pgx декодирует timestamptz в часовом поясе сессии. Момент времени тот же,
 	// но представление зависело бы от настроек сервера БД, а домен обещает UTC.
 	l.CreatedAt = l.CreatedAt.UTC()
 	if err != nil {
@@ -185,4 +185,3 @@ func mapError(err error) error {
 
 	return fmt.Errorf("%w: %w", shortener.ErrStorageUnavailable, err)
 }
-

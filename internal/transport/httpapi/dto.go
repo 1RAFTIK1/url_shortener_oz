@@ -1,4 +1,4 @@
-// httpapi/dto.go структуры, которые сериализуются в JSON и обратно
+// Package httpapi httpapi/dto.go структуры, которые сериализуются в JSON и обратно
 package httpapi
 
 import "time"

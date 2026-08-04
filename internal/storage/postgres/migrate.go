@@ -14,6 +14,7 @@ import (
 )
 
 // Миграции встроены в бинарник
+//
 //go:embed migrations/*.sql
 var migrationsFS embed.FS
 
