@@ -32,3 +32,7 @@ check: race lint vuln
 
 clean:
 	rm -rf bin coverage.out
+
+fmt:
+	gofmt -w .
+	go mod tidy

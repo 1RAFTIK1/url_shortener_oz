@@ -3,8 +3,6 @@
 *.out
 .env
 .git
-.github
-*.md
 bin
 coverage.out
 .env
